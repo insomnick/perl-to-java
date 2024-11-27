@@ -1,5 +1,6 @@
 package com.sippy.wrapper.parent;
 
+import com.fasterxml.jackson.databind.ObjectMapper;
 import com.sippy.wrapper.parent.database.DatabaseConnection;
 import com.sippy.wrapper.parent.request.JavaTestRequest;
 import com.sippy.wrapper.parent.response.JavaTestResponse;
@@ -36,5 +37,25 @@ public class WrappedMethods {
     jsonResponse.put("something", response);
 
     return jsonResponse;
+  }
+
+  //Zeit leider ausgegangen, aber Perl ist ehrlich dreck
+
+  @RpcMethod(name = "getTnbList", description = "mimics perl Method")
+  public HashMap<String, Object> getTnbList (final String params){
+    final var tnbs_from_db = databaseConnection.getAllTnbs();
+    //final var tnb = tnbs_from_db.stream().filter(e -> e.getTnb().equals(params));
+    /*
+    final var tnbs = tnbs_from_db
+            .stream()
+            .filter(e->true)
+            .sorted();
+    */
+
+    final var response = new HashMap<String, Object>();
+    response.put("faultCode", "200");
+    response.put("faultString", "Method success");
+    response.put("tnbs", tnbs_from_db);
+    return response;
   }
 }
